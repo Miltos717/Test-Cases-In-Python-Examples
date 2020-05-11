@@ -1,0 +1,70 @@
+Unit Test Fundamentals
+-----------------------
+
+Unit is a small piece of code.
+eg. Method,Function,module or a class or a group of related classes
+
+Unit Test will usually run only in memory and it WILL NOT interact with the filesystem or a database or the network if it does then it can't be referred as Unit Test.
+This is because the test should run as fast as possible.
+
+Example :
+Given a list of names and phone numbers
+Make a phonebook
+Determine if it is consistent:
+    - no number us a prefix of another
+    -eg : Bob 91125426, Anna 97625992
+    -Emergency 911
+
+Test Case is a fundamental idea in testing. Each Test Case should exercise a unit of code and check whether it is working correctly. We should able to run each test case independently of all the others as many times as you like and it will return back the required response whether it pass or fail. You may have several test on a unit but each one should be independent of others.
+
+Test Suite
+--------------
+It is simply a number of testcases which is executed together by a test runner.
+
+Test Fixture
+-----------------
+Test Fixture is a piece of supporting code for the Test Cases.
+
+Note : # @unittest.skip("WIP") : Used to skip a particular test case if sometimes a test code isnt completed and you want that should be in your code but don't want it to execute fr that we use @unittest.skip("WIP") WIP : Work In Progress.
+
+
+Different levels of Test Fixtures:
+Example :
+
+class PhoneBookTest(unittest.TestCase): -> Declare a class containing tests.
+
+    def setUp(self): -> Setup Fixture Method
+        """
+        The setUp method is called each time a test case is executed.
+        :return: PhoneBook Class.
+        """
+        self.phonebook = PhoneBook()
+
+    def tearDown(self): -> Tear Down Method
+        """
+        This class is used to release the resource which are used by the testcases like in the case of using some files for testing or maybe the use of some database or so. As of now in this code its not required and hence it is passed.
+        """
+        pass
+The below are different Test Cases included in the class.
+    def test_lookup_by_name(self):
+        self.phonebook.add("Arjun","12345")
+        number = self.phonebook.lookup("Arjun")
+        self.assertEqual("12345",number)
+
+    def test_missing_name(self):
+        with self.assertRaises(KeyError):
+            self.phonebook.lookup("Missing")
+
+    def test_empty_phonebook_is_consistent(self):
+        self.assertTrue(self.phonebook.is_consistent())
+
+
+Order Of Execution
+
+1. setUp()
+2. TestCaseMethods()
+3. tearDown()
+
+If setUp is failed non of the following will not be called or else even if some exception is thrown in the testcases the tearDown() method will run.
+
+NOTE : IF AN EXCEPTION OCCUR THE UNITTEST WILL STOP THERE AND THE REST OF THE CODE WILL NOT BE EXECUTED.
