@@ -10,6 +10,7 @@ class PhoneBookTest(unittest.TestCase):
         The setUp method is called each time a test case is executed.
         :return: PhoneBook Class.
         """
+        print("epp")
         self.phonebook = PhoneBook()
 
     def tearDown(self) -> None:
